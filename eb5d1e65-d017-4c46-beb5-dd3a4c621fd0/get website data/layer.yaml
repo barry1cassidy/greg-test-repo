@@ -1,0 +1,109 @@
+id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+name: get website data
+type: 5
+canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+blocks:
+- auto_size: false
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  compute_settings:
+    compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+    - 1
+  description: ''
+  height: 500
+  id: 114bbf97-9377-43df-96e0-25d98a580ff9
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  name: get article text.page range
+  parent_id: null
+  properties: {}
+  status: 1
+  type: 1
+  variables: null
+  width: 800
+  x: 84
+  y: 1004
+- auto_size: false
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  compute_settings: null
+  description: ''
+  height: 500
+  id: 715607e3-64b8-4618-8aec-d1f1c526ef6e
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  name: vectorize files.spread files
+  parent_id: null
+  properties: {}
+  status: 1
+  type: 1
+  variables: null
+  width: 800
+  x: -2620
+  y: 1047
+- auto_size: false
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  compute_settings:
+    compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+    - 1
+  description: ''
+  height: 500
+  id: cc2b98ab-8887-4cc3-a29e-646ff85263e9
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  name: vectorize files.create embeddings df
+  parent_id: null
+  properties: {}
+  status: 1
+  type: 1
+  variables: null
+  width: 800
+  x: -869
+  y: 1014
+- auto_size: false
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  compute_settings:
+    compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+    - 1
+  description: ''
+  height: 500
+  id: cd6748ea-3ba2-42ed-9f9e-3907bbf947be
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  name: get article text.make files
+  parent_id: null
+  properties: {}
+  status: 1
+  type: 1
+  variables: null
+  width: 800
+  x: 1004
+  y: 1004
+- auto_size: false
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  compute_settings:
+    compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+    - 1
+  description: ''
+  height: 500
+  id: d01e433a-66ed-4eff-84bb-5907f08929a5
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  name: get article text.get links
+  parent_id: null
+  properties: {}
+  status: 1
+  type: 1
+  variables: null
+  width: 800
+  x: 1937
+  y: 999
+edges:
+- canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  id: 1548979b-86f1-4c0c-8698-b73ea3d084d6
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  source: 114bbf97-9377-43df-96e0-25d98a580ff9
+  target: cd6748ea-3ba2-42ed-9f9e-3907bbf947be
+- canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  id: ea1e7ca1-3c1c-4765-9da4-4d1956ffa561
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  source: cd6748ea-3ba2-42ed-9f9e-3907bbf947be
+  target: d01e433a-66ed-4eff-84bb-5907f08929a5
+- canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  id: ee65e23f-c1fc-460c-9099-60ce4679949b
+  layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  source: 715607e3-64b8-4618-8aec-d1f1c526ef6e
+  target: 114bbf97-9377-43df-96e0-25d98a580ff9

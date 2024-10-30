@@ -1,0 +1,509 @@
+id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+name: Gregs Canvas
+project_id: a0e1ab23-b48f-4382-a395-733e17c49fff
+global_imports: []
+python_global_imports: "import boto3\r\nfrom bs4 import BeautifulSoup\r\nimport json\r\
+  \nimport logging\r\nimport matplotlib.pyplot as plt\r\nfrom mpl_toolkits.mplot3d\
+  \ import Axes3D\r\nimport numpy as np\r\nimport os\r\nimport pandas as pd\r\nimport\
+  \ random\r\nimport re\r\nimport requests\r\nfrom requests.adapters import HTTPAdapter\r\
+  \nimport seaborn as sns\r\nfrom selenium import webdriver\r\nfrom selenium.webdriver.chrome.service\
+  \ import Service as ChromeService\r\nfrom selenium.webdriver.common.keys import\
+  \ Keys\r\nfrom selenium.webdriver.common.by import By\r\nfrom selenium.webdriver.chrome.options\
+  \ import Options\r\nfrom sklearn.cluster import KMeans\r\nfrom sklearn.decomposition\
+  \ import PCA\r\nfrom sklearn.manifold import TSNE\r\nfrom sklearn.metrics.pairwise\
+  \ import cosine_similarity\r\nimport time\r\nimport torch\r\nfrom transformers import\
+  \ AutoTokenizer, AutoModel\r\nfrom urllib.parse import urljoin, urlparse\r\nfrom\
+  \ urllib3.util.retry import Retry\r\nfrom webdriver_manager.chrome import ChromeDriverManager\r\
+  \nfrom webdriver_manager.core.os_manager import ChromeType\r\n\r\n\r\n\r\n\r\ndef\
+  \ vectorize_article(text):\r\n    # Tokenize the input text and convert to tensor\r\
+  \n    tokenizer = AutoTokenizer.from_pretrained(model_name)\r\n    model = AutoModel.from_pretrained(model_name)\r\
+  \n\r\n    inputs = tokenizer(text, return_tensors='pt', max_length=512, truncation=True,\
+  \ padding=True)\r\n    \r\n    # Get the hidden states from the model (we only need\
+  \ the last hidden state)\r\n    with torch.no_grad():\r\n        outputs = model(**inputs)\r\
+  \n        last_hidden_state = outputs.last_hidden_state\r\n\r\n    # Mean pooling\
+  \ to get a single vector for the article\r\n    article_vector = last_hidden_state.mean(dim=1).squeeze()\r\
+  \n    return article_vector"
+r_global_imports: ''
+requirements:
+- datasets==2.18.0
+- webdriver_manager
+- scikit-learn==1.2.2
+- plotly==5.14.1
+- torch
+- nltk==3.7
+- jsii==1.82.0
+- beautifulsoup4==4.10.0
+- wordcloud==1.9.2
+- transformers==4.39.3
+- aws-cdk-lib==2.81.0
+- scipy==1.10.1
+- seaborn==0.12.2
+- selenium
+- huggingface_hub==0.22.2
+linux_packages:
+- chromium
+environment_variables: []
+is_public: false
+workspace_id: null
+layers:
+- blocks:
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 114bbf97-9377-43df-96e0-25d98a580ff9
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    name: get article text.page range
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 84
+    y: 1004
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings: null
+    description: ''
+    height: 500
+    id: 715607e3-64b8-4618-8aec-d1f1c526ef6e
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    name: vectorize files.spread files
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: -2620
+    y: 1047
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: cc2b98ab-8887-4cc3-a29e-646ff85263e9
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    name: vectorize files.create embeddings df
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: -869
+    y: 1014
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: cd6748ea-3ba2-42ed-9f9e-3907bbf947be
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    name: get article text.make files
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 1004
+    y: 1004
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: d01e433a-66ed-4eff-84bb-5907f08929a5
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    name: get article text.get links
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 1937
+    y: 999
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  edges:
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 1548979b-86f1-4c0c-8698-b73ea3d084d6
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    source: 114bbf97-9377-43df-96e0-25d98a580ff9
+    target: cd6748ea-3ba2-42ed-9f9e-3907bbf947be
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: ea1e7ca1-3c1c-4765-9da4-4d1956ffa561
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    source: cd6748ea-3ba2-42ed-9f9e-3907bbf947be
+    target: d01e433a-66ed-4eff-84bb-5907f08929a5
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: ee65e23f-c1fc-460c-9099-60ce4679949b
+    layer_id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+    source: 715607e3-64b8-4618-8aec-d1f1c526ef6e
+    target: 114bbf97-9377-43df-96e0-25d98a580ff9
+  id: 6b7a1727-5945-4e04-9eef-bea36ad707cc
+  name: get website data
+  type: 5
+- blocks:
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 0ca669cb-e8a1-4edc-a64e-4c00a55360f3
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: PCA.Untitled
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 2421
+    y: 2213
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 11da32e6-ca43-44f8-97cf-794a9a7ab081
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: TSNE.viz2
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 2596
+    y: 290
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 373f4a21-d0d4-423d-b138-4a115273940c
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: PCA.Untitled
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 3715
+    y: 1208
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 3a2dcdd4-2495-45d9-b337-010b9778ef83
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: PCA.Untitled
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 3693
+    y: 2622
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 9d8e8461-521e-4f4d-b4ec-a14003be5808
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: TSNE.viz1
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 2607
+    y: -1479
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: a154d5b1-8e5e-467a-ae1d-f91ee4abdbf0
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: PCA.Untitled
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 3688
+    y: 3371
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: cb930c5e-53ce-476f-b48d-e0b2bba97225
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: TSNE.3d
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 2592
+    y: -579
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: ddf7e8a6-da28-40d1-a6ce-8033546eb565
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: PCA.Untitled
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 3667
+    y: 1949
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: f6071926-ace0-4a59-bcb1-740128fbb285
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: PCA.Untitled
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 1312
+    y: 2183
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings: null
+    description: ''
+    height: 500
+    id: f90ced08-4c7e-4d97-8cb9-6bd7efc1e43f
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: Data Prep.Untitled
+    parent_id: null
+    properties: {}
+    status: 4
+    type: 1
+    variables: null
+    width: 800
+    x: -1277
+    y: 1047
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: faa66106-ce68-476d-b322-c2bafab31bfe
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    name: TSNE.run
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 1300
+    y: -639
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  edges:
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 04e088a5-e3db-48e1-bd0f-edb74243577f
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: f90ced08-4c7e-4d97-8cb9-6bd7efc1e43f
+    target: f6071926-ace0-4a59-bcb1-740128fbb285
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 071a63c3-6e07-472b-8c62-daa715e385a4
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: 0ca669cb-e8a1-4edc-a64e-4c00a55360f3
+    target: a154d5b1-8e5e-467a-ae1d-f91ee4abdbf0
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 144fc357-754a-4d7c-978e-901b7c1953d4
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: faa66106-ce68-476d-b322-c2bafab31bfe
+    target: 11da32e6-ca43-44f8-97cf-794a9a7ab081
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 169387c1-bfd3-4d34-b6b5-9b8d0c7eb4b9
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: 0ca669cb-e8a1-4edc-a64e-4c00a55360f3
+    target: 3a2dcdd4-2495-45d9-b337-010b9778ef83
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 19763547-2bd1-4c2c-a4f6-359704314d56
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: f90ced08-4c7e-4d97-8cb9-6bd7efc1e43f
+    target: faa66106-ce68-476d-b322-c2bafab31bfe
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 5113fd81-244d-4449-b096-2618054eb8cf
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: 0ca669cb-e8a1-4edc-a64e-4c00a55360f3
+    target: ddf7e8a6-da28-40d1-a6ce-8033546eb565
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 63c1e40e-7fdd-4d78-8f5c-c003ed005250
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: f6071926-ace0-4a59-bcb1-740128fbb285
+    target: 0ca669cb-e8a1-4edc-a64e-4c00a55360f3
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 7ee2b229-d959-477d-a9b2-1d1f87688331
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: faa66106-ce68-476d-b322-c2bafab31bfe
+    target: cb930c5e-53ce-476f-b48d-e0b2bba97225
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 872f9d81-a206-480b-be5f-b57b134c922b
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: faa66106-ce68-476d-b322-c2bafab31bfe
+    target: 9d8e8461-521e-4f4d-b4ec-a14003be5808
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: ca632bcf-cb15-4fca-8213-5ba12d14c93d
+    layer_id: 7142e9f9-ce29-45d2-a78a-0af583626159
+    source: 0ca669cb-e8a1-4edc-a64e-4c00a55360f3
+    target: 373f4a21-d0d4-423d-b138-4a115273940c
+  id: 7142e9f9-ce29-45d2-a78a-0af583626159
+  name: Development
+  type: 1
+- blocks:
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings: null
+    description: ''
+    height: 500
+    id: 73ed74fe-871a-405c-b65a-2481c1f96153
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    name: ''
+    parent_id: null
+    properties:
+      auth_enabled: true
+      method: get
+      method_name: ''
+      model: []
+      response_model: []
+      route_name: ''
+      validation_enabled: true
+    status: 1
+    type: 8
+    variables: null
+    width: 800
+    x: 751
+    y: -21
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: b618317d-149c-4432-b25c-c275d9d46944
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    name: ''
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 1720
+    y: 50
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings: null
+    description: ''
+    height: 500
+    id: e5d87fd7-9ea6-4e29-9295-425404784c91
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    name: API Controller
+    parent_id: null
+    properties:
+      api_key: zv-9c8961e0-a711-48f2-a816-aa7cd1780a5f
+      dns_name: null
+      file_names: []
+    status: 1
+    type: 7
+    variables: null
+    width: 800
+    x: -169
+    y: -16
+  - auto_size: false
+    canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: f3a77f19-c2b4-467a-b6bc-5066736301b4
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    name: ''
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 2640
+    y: 50
+  canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+  edges:
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 21f45b2f-34c3-4b07-b60f-64889d167aa7
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    source: e5d87fd7-9ea6-4e29-9295-425404784c91
+    target: 73ed74fe-871a-405c-b65a-2481c1f96153
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: 953135a1-7928-41d4-95c5-d03d6cb91312
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    source: 73ed74fe-871a-405c-b65a-2481c1f96153
+    target: b618317d-149c-4432-b25c-c275d9d46944
+  - canvas_id: eb5d1e65-d017-4c46-beb5-dd3a4c621fd0
+    id: e19b5c8c-e801-4601-9630-6d65073da752
+    layer_id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+    source: b618317d-149c-4432-b25c-c275d9d46944
+    target: f3a77f19-c2b4-467a-b6bc-5066736301b4
+  id: ec4edb11-5cf8-4c09-aba5-2e3ca43fd38f
+  name: api_builder
+  type: 2
+assets: []
