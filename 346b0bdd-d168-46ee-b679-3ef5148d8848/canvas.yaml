@@ -1,0 +1,37 @@
+id: 346b0bdd-d168-46ee-b679-3ef5148d8848
+name: Simple Canvas to test Git Refactor
+project_id: 7a7b73b5-d7c6-44e9-8af8-6afcbab0ac99
+global_imports: []
+python_global_imports: ''
+r_global_imports: ''
+requirements: []
+linux_packages: []
+environment_variables: []
+is_public: false
+workspace_id: null
+layers:
+- blocks:
+  - auto_size: false
+    canvas_id: 346b0bdd-d168-46ee-b679-3ef5148d8848
+    compute_settings:
+      compute_environment_type: !!python/object/apply:canvas_service.database.schemas.validation_config.ComputeEnvironmentType
+      - 1
+    description: ''
+    height: 500
+    id: 73e21392-20d4-4b04-9127-35dbe654ce08
+    layer_id: 1bd32015-7747-4f69-bc69-c0d73f52216f
+    name: '1'
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 800
+    x: 1450
+    y: 200
+  canvas_id: 346b0bdd-d168-46ee-b679-3ef5148d8848
+  edges: []
+  id: 1bd32015-7747-4f69-bc69-c0d73f52216f
+  name: Development
+  type: 1
+assets: []
